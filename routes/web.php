@@ -28,3 +28,5 @@ Route::get('/statut/add', [AuthController::class, 'showAddStatut']);
 Route::post('/statut/add', [AuthController::class, 'addStatut']);
 
 Route::get('/dashboard/filter', [AuthController::class, 'filter']);
+
+Route::post('/logout', [AuthController::class, 'logout']);

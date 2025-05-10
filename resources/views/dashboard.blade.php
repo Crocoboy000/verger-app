@@ -5,6 +5,11 @@
     <style>
         table, th, td { border: 1px solid black; border-collapse: collapse; padding: 8px; }
         th { background-color: #f2f2f2; }
+        .pagination { list-style-type: none; padding: 0; margin: 10px 0; }
+        .pagination li { display: inline-block; margin-right: 5px; }
+        .pagination a { padding: 8px 16px; text-decoration: none; border: 1px solid #ddd; color: black; }
+        .pagination a:hover { background-color: #f2f2f2; }
+        .pagination .active a { background-color: #ddd; }
     </style>
 </head>
 <body>
@@ -33,7 +38,7 @@
                 @endforeach
             </select><br><br>
 
-            <!-- Filter by Date Range -->
+
             <label for="date_from">Date From:</label>
             <input type="date" id="date_from" name="date_from" value="{{ request('date_from') }}"><br><br>
 
@@ -46,7 +51,7 @@
 
     <h3>Your Verger Status Table</h3>
 
-    <!-- Check if filters were applied and show results accordingly -->
+
     @if(request()->hasAny(['refver', 'date_from', 'date_to']) && $statuts->isEmpty())
         <p>No verger filtered or no results match the criteria.</p>
     @elseif($statuts->isEmpty())

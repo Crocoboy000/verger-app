@@ -49,7 +49,7 @@ class AuthController extends Controller
         return redirect('/dashboard');
     }
 
-public function dashboard()
+public function dashboard(Request $request)
 {
     $login = session('user_login');
 
@@ -58,23 +58,45 @@ public function dashboard()
 
     // Get vergers for this user
     $vergers = DB::table('user_verger')
-        ->where('iduser', $user->login) // Assuming login = iduser
+        ->where('iduser', $user->login)
         ->pluck('refver');
 
-    // Get all statut entries for those vergers
-    $statuts = DB::table('statut')
-        ->whereIn('refver', $vergers)
-        ->get();
+    // Initialize the query
+    $query = DB::table('statut')->whereIn('refver', $vergers);
 
-            $vergersFilter = DB::table('user_verger')
+    // Apply filters if provided
+    if ($request->has('refver') && $request->refver != '') {
+        $query->where('refver', $request->refver);
+    }
+
+    if ($request->has('date_from') && $request->date_from != '') {
+        $query->where('dtver', '>=', $request->date_from);
+    }
+
+    if ($request->has('date_to') && $request->date_to != '') {
+        $query->where('dtver', '<=', $request->date_to);
+    }
+
+    // Paginate the results (e.g., 10 results per page)
+    $statuts = $query->paginate(10);  // Use paginate directly here
+
+    // Get vergers for the filter dropdown
+    $vergersFilter = DB::table('user_verger')
         ->join('verger', 'verger.refver', '=', 'user_verger.refver')
         ->where('iduser', $user->login)
         ->select('verger.refver', 'verger.nomver')
         ->get();
 
-
+    // Return the view with paginated results
     return view('dashboard', compact('statuts', 'vergersFilter'));
 }
+
+public function logout()
+{
+    session()->forget('user_login');
+    return redirect('/login');
+}
+
 public function showAddVerger()
 {
     return view('add_verger');
