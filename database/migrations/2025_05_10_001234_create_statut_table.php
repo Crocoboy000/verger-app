@@ -22,8 +22,10 @@ Schema::create('statut', function (Blueprint $table) {
     $table->decimal('pdexp', 8, 2);
     $table->decimal('pdeca', 8, 2);
     $table->decimal('pdfre', 8, 2);
+    $table->string('login');
 
     $table->foreign('refver')->references('refver')->on('verger')->onDelete('cascade');
+    $table->foreign('login')->references('login')->on('user')->onDelete('cascade');
 });
     }
 

@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-Schema::create('user', function (Blueprint $table) {
-    $table->string('login')->primary();
-    $table->string('pwd');
-    $table->boolean('role')->default(false);
-});
-
+        Schema::table('user', function (Blueprint $table) {
+            $table->rememberToken();
+        });
     }
 
     /**
@@ -24,6 +21,8 @@ Schema::create('user', function (Blueprint $table) {
      */
     public function down(): void
     {
-        Schema::dropIfExists('user');
+        Schema::table('user', function (Blueprint $table) {
+            $table->dropColumn('remember_token');
+        });
     }
 };

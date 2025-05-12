@@ -19,6 +19,8 @@ class User extends Authenticatable
      */
 protected $table = 'user';
 protected $primaryKey = 'login';
+protected $keyType = 'string';
+public $incrementing = false;
 public $timestamps = false;
 
 protected $fillable = ['login', 'pwd'];
@@ -35,8 +37,7 @@ public function vergers()
      * @var list<string>
      */
     protected $hidden = [
-        'password',
-        'remember_token',
+        'pwd',
     ];
 
     /**

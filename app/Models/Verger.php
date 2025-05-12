@@ -6,9 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Verger extends Model
 {
-    protected $table = 'verger';
+protected $table = 'verger';
 protected $primaryKey = 'refver';
+protected $keyType = 'string';
+public $incrementing = false;
 public $timestamps = false;
+protected $fillable = ['refver','nomver'];
 
 public function users()
 {
